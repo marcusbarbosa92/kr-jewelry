@@ -91,21 +91,7 @@ export function ShieldIcon({ className = "h-5 w-5" }: IconProps) {
   );
 }
 
-export function WaxSealIcon({ className = "h-5 w-5" }: IconProps) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.3"
-      className={className}
-      aria-hidden="true"
-    >
-      <circle cx="12" cy="12" r="8.5" strokeDasharray="2 1.6" />
-      <path d="M12 7.5 16 12l-4 4.5L8 12l4-4.5Z" strokeLinejoin="round" />
-    </svg>
-  );
-}
+
 
 export function HallmarkChip({ className = "" }: IconProps) {
   return (

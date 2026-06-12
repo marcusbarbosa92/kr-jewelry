@@ -23,12 +23,12 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-5 py-16 lg:px-10">
         <div className="grid gap-12 lg:grid-cols-4">
           <div className="lg:col-span-2">
-            <div className="flex items-center gap-3">
-              <AurumMark className="h-7 w-7" />
-              <span className="font-display text-xl tracking-[0.18em] text-ivory sm:text-2xl">
+            <a href="#/" className="group flex items-center gap-3 w-fit">
+              <AurumMark className="h-7 w-7 transition-transform duration-500 group-hover:rotate-12" />
+              <span className="font-display text-xl tracking-[0.18em] text-ivory sm:text-2xl transition-colors duration-300 group-hover:text-champagne-light">
                 KR.JEWELRY
               </span>
-            </div>
+            </a>
             <p className="mt-5 max-w-sm text-sm font-extralight leading-relaxed text-ivory-muted">
               Joalheria brasileira em ouro 18k, com atendimento próximo pelo
               WhatsApp e entrega segura em todo o Brasil.

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import { WhatsAppIcon } from "../ui/Icons.tsx";
 import { whatsappLink } from "../../utils/helpers.ts";
@@ -27,11 +27,19 @@ export function WishlistDrawer({
   onToggle,
   onClear,
 }: WishlistDrawerProps) {
+  const [consentChecked, setConsentChecked] = useState(false);
+
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) {
+      setConsentChecked(false);
+    }
   }, [open]);
 
   const saved = collections.filter((c) => items.includes(c.name));
@@ -115,12 +123,47 @@ export function WishlistDrawer({
                   </AnimatePresence>
                 </ul>
 
-                <div className="border-t border-champagne/10 pt-5 mt-auto">
+                <div className="border-t border-champagne/10 pt-4 mt-auto">
+                  <div className="mb-4 flex items-start gap-2.5 text-left">
+                    <input
+                      type="checkbox"
+                      id="wishlist-consent"
+                      checked={consentChecked}
+                      onChange={(e) => setConsentChecked(e.target.checked)}
+                      className="mt-1 h-3.5 w-3.5 shrink-0 rounded border-champagne/30 bg-noir text-champagne accent-champagne focus:ring-0 cursor-pointer"
+                    />
+                    <label
+                      htmlFor="wishlist-consent"
+                      className="text-[11px] font-extralight leading-relaxed text-ivory-muted/80 cursor-pointer select-none"
+                    >
+                      Aceito os{" "}
+                      <a
+                        href="#/termos"
+                        target="_blank"
+                        className="text-champagne-light underline decoration-champagne/20 underline-offset-2 hover:text-champagne hover:decoration-champagne"
+                      >
+                        Termos de Uso
+                      </a>{" "}
+                      e a{" "}
+                      <a
+                        href="#/privacidade"
+                        target="_blank"
+                        className="text-champagne-light underline decoration-champagne/20 underline-offset-2 hover:text-champagne hover:decoration-champagne"
+                      >
+                        Polít. de Privacidade
+                      </a>.
+                    </label>
+                  </div>
+
                   <a
                     href={whatsappLink(message)}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex w-full items-center justify-center gap-3 rounded-full bg-champagne px-8 py-4 text-[13px] font-medium uppercase tracking-[0.18em] text-noir transition-all duration-500 hover:bg-champagne-light hover:shadow-[0_12px_48px_rgba(212,180,131,0.45)]"
+                    className={`flex w-full items-center justify-center gap-3 rounded-full bg-champagne px-8 py-4 text-[13px] font-medium uppercase tracking-[0.18em] text-noir transition-all duration-500 ${
+                      consentChecked
+                        ? "hover:bg-champagne-light hover:shadow-[0_12px_48px_rgba(212,180,131,0.45)]"
+                        : "opacity-40 pointer-events-none"
+                    }`}
                   >
                     <WhatsAppIcon className="h-4 w-4" />
                     Enviar lista no WhatsApp
@@ -128,7 +171,7 @@ export function WishlistDrawer({
 
                   <button
                     onClick={onClear}
-                    className="mt-5 w-full text-center text-xs font-light uppercase tracking-[0.22em] text-ivory-muted transition-colors duration-300 hover:text-champagne"
+                    className="mt-4 w-full text-center text-xs font-light uppercase tracking-[0.22em] text-ivory-muted transition-colors duration-300 hover:text-champagne"
                   >
                     Limpar lista
                   </button>

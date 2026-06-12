@@ -14,4 +14,5 @@ export const INSTITUTIONAL_LINKS = [
   { label: "Guia de medidas", href: "#/medidas" },
   { label: "Trocas e devoluções", href: "#/trocas" },
   { label: "Política de privacidade", href: "#/privacidade" },
+  { label: "Termos de uso", href: "#/termos" },
 ];

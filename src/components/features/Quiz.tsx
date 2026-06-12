@@ -49,6 +49,7 @@ const STEP_LABELS: Record<string, string> = {
 export function QuizSection() {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, QuizOption>>({});
+  const [consentChecked, setConsentChecked] = useState(false);
 
   const pick = (key: string, option: QuizOption) => {
     setAnswers((prev) => ({ ...prev, [key]: option }));
@@ -58,6 +59,7 @@ export function QuizSection() {
   const restart = () => {
     setAnswers({});
     setStep(0);
+    setConsentChecked(false);
   };
 
   const done = step >= QUIZ_STEPS.length;
@@ -177,11 +179,47 @@ export function QuizSection() {
                     ))}
                   </ul>
 
+                  <div className="mt-7 flex items-start gap-3 text-left">
+                    <input
+                      type="checkbox"
+                      id="quiz-consent"
+                      checked={consentChecked}
+                      onChange={(e) => setConsentChecked(e.target.checked)}
+                      className="mt-1 h-4 w-4 shrink-0 rounded border-champagne/30 bg-noir text-champagne accent-champagne focus:ring-0 cursor-pointer"
+                    />
+                    <label
+                      htmlFor="quiz-consent"
+                      className="text-[12px] font-extralight leading-relaxed text-ivory-muted cursor-pointer select-none"
+                    >
+                      Declaro que li e aceito os{" "}
+                      <a
+                        href="#/termos"
+                        target="_blank"
+                        className="text-champagne-light underline decoration-champagne/20 underline-offset-2 hover:text-champagne hover:decoration-champagne"
+                      >
+                        Termos de Uso
+                      </a>{" "}
+                      e a{" "}
+                      <a
+                        href="#/privacidade"
+                        target="_blank"
+                        className="text-champagne-light underline decoration-champagne/20 underline-offset-2 hover:text-champagne hover:decoration-champagne"
+                      >
+                        Política de Privacidade
+                      </a>{" "}
+                      para tratamento dos meus dados.
+                    </label>
+                  </div>
+
                   <a
                     href={whatsappLink(message)}
                     target="_blank"
                     rel="noreferrer"
-                    className="group mt-8 flex w-full items-center justify-center gap-3 rounded-full bg-champagne px-8 py-4 text-[13px] font-medium uppercase tracking-[0.18em] text-noir transition-all duration-500 hover:-translate-y-0.5 hover:bg-champagne-light hover:shadow-[0_12px_48px_rgba(212,180,131,0.45)]"
+                    className={`group mt-6 flex w-full items-center justify-center gap-3 rounded-full bg-champagne px-8 py-4 text-[13px] font-medium uppercase tracking-[0.18em] text-noir transition-all duration-500 ${
+                      consentChecked
+                        ? "hover:-translate-y-0.5 hover:bg-champagne-light hover:shadow-[0_12px_48px_rgba(212,180,131,0.45)]"
+                        : "opacity-40 pointer-events-none"
+                    }`}
                   >
                     <WhatsAppIcon className="h-4 w-4" />
                     Receber sugestões

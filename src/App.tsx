@@ -14,6 +14,8 @@ import { ContatoPage } from "./pages/Contato.tsx";
 import { MedidasPage } from "./pages/Medidas.tsx";
 import { PrivacidadePage } from "./pages/Privacidade.tsx";
 import { TrocasPage } from "./pages/Trocas.tsx";
+import { TermosPage } from "./pages/Termos.tsx";
+import { CookieConsent } from "./components/layout/CookieConsent.tsx";
 
 interface PageConfig {
   component: React.ComponentType<any>;
@@ -26,6 +28,7 @@ const PAGES: Record<string, PageConfig> = {
   medidas: { component: MedidasPage, title: "Guia de medidas" },
   privacidade: { component: PrivacidadePage, title: "Política de privacidade" },
   trocas: { component: TrocasPage, title: "Trocas e devoluções" },
+  termos: { component: TermosPage, title: "Termos de uso" },
 };
 
 export default function App() {
@@ -79,6 +82,7 @@ export default function App() {
         onClear={wishlist.clear}
       />
       <FloatingWhatsApp />
+      <CookieConsent />
     </div>
   );
 }

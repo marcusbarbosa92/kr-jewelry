@@ -18,7 +18,7 @@ export const COLLECTIONS: Collection[] = [
     description: "Camadas de luz para usar sozinhas ou sobrepostas.",
     message:
       "Olá! Quero conhecer os colares da Coleção Lumière. Pode me mandar as opções com comprimentos e valores?",
-    image: img("photo-1599459183200-59c7687a0275"),
+    image: img("photo-1588444837495-c6cfeb53f32d"), // swapped: was photo-1599459183200-59c7687a0275 (earrings) -> now photo-1588444837495-c6cfeb53f32d (necklace)
     span: "",
     height: "h-80 sm:h-96 lg:h-72",
   },
@@ -28,7 +28,7 @@ export const COLLECTIONS: Collection[] = [
     description: "Do ponto de luz ao brinco de festa, brilho na sua medida.",
     message:
       "Olá! Amei os brincos da Coleção Aurora. Quais modelos estão disponíveis? Pode me enviar fotos com os valores?",
-    image: img("photo-1588444837495-c6cfeb53f32d"),
+    image: img("photo-1599459183200-59c7687a0275"), // swapped: was photo-1588444837495-c6cfeb53f32d (necklace) -> now photo-1599459183200-59c7687a0275 (earrings)
     span: "",
     height: "h-80 sm:h-96 lg:h-72",
   },

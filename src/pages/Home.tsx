@@ -1,5 +1,4 @@
-import React from "react";
-import { ArrowRight, Star } from "lucide-react";
+import { ArrowRight, Star, Heart } from "lucide-react";
 import { useScroll, useTransform, motion } from "framer-motion";
 import {
   AurumMark,

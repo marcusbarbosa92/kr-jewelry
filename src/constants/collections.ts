@@ -18,7 +18,7 @@ export const COLLECTIONS: Collection[] = [
     description: "Camadas de luz para usar sozinhas ou sobrepostas.",
     message:
       "Olá! Quero conhecer os colares da Coleção Lumière. Pode me mandar as opções com comprimentos e valores?",
-    image: img("photo-1588444837495-c6cfeb53f32d"), // swapped: was photo-1599459183200-59c7687a0275 (earrings) -> now photo-1588444837495-c6cfeb53f32d (necklace)
+    image: img("photo-1599643477877-530eb83abc8e"), // verified gold necklace
     span: "",
     height: "h-80 sm:h-96 lg:h-72",
   },
@@ -28,7 +28,7 @@ export const COLLECTIONS: Collection[] = [
     description: "Do ponto de luz ao brinco de festa, brilho na sua medida.",
     message:
       "Olá! Amei os brincos da Coleção Aurora. Quais modelos estão disponíveis? Pode me enviar fotos com os valores?",
-    image: img("photo-1599459183200-59c7687a0275"), // swapped: was photo-1588444837495-c6cfeb53f32d (necklace) -> now photo-1599459183200-59c7687a0275 (earrings)
+    image: img("photo-1535632066927-ab7c9ab60908"), // verified gold earrings
     span: "",
     height: "h-80 sm:h-96 lg:h-72",
   },
@@ -38,7 +38,7 @@ export const COLLECTIONS: Collection[] = [
     description: "Elos delicados, presença inesquecível.",
     message:
       "Olá! Gostaria de ver as pulseiras da Coleção Riviera. Pode me enviar o catálogo com os valores?",
-    image: img("photo-1611652022419-a9419f74343d"),
+    image: img("photo-1602751584552-8ba73aad10e1"), // verified gold bracelet
     span: "lg:col-span-3",
     height: "h-80 sm:h-96 lg:h-80",
   },

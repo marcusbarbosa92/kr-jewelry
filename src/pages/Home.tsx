@@ -26,22 +26,12 @@ interface HomeProps {
 function Hero() {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 800], [0, 200]);
-  const videoRef = React.useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.setAttribute("referrerpolicy", "no-referrer");
-      videoRef.current.src =
-        "https://assets.mixkit.co/videos/preview/mixkit-close-up-of-sparkling-gold-jewelry-41740-large.mp4";
-    }
-  }, []);
-
   return (
     <section className="relative flex min-h-svh items-center justify-center overflow-hidden">
       {/* Background with parallax */}
       <motion.div className="absolute inset-0" style={{ y }}>
         <video
-          ref={videoRef}
+          src="/hero-video.mp4"
           autoPlay
           loop
           muted

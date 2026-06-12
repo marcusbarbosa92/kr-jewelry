@@ -5,8 +5,6 @@ export const INSTAGRAM_HANDLE = "@krjewelryoficial";
 export const NAV_LINKS = [
   { label: "Coleções", href: "#colecoes" },
   { label: "Atendimento", href: "#atendimento" },
-  { label: "Clientes", href: "#clientes" },
-  { label: "Garantias", href: "#garantias" },
   { label: "Contato", href: "#/contato" },
 ];
 

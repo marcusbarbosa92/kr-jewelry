@@ -1,5 +1,6 @@
-import { ArrowRight, Star, Heart } from "lucide-react";
-import { useScroll, useTransform, motion } from "framer-motion";
+import React, { useState, useEffect } from "react";
+import { ArrowRight, Star, Heart, X } from "lucide-react";
+import { useScroll, useTransform, motion, AnimatePresence } from "framer-motion";
 import {
   AurumMark,
   AuthenticitySeal,
@@ -30,11 +31,19 @@ function Hero() {
     <section className="relative flex min-h-svh items-center justify-center overflow-hidden">
       {/* Background with parallax */}
       <motion.div className="absolute inset-0" style={{ y }}>
-        <img
-          src={img("photo-1515562141207-7a88fb7ce338", 2000)}
-          alt="Alta Joalheria KR"
-          className="h-[120%] w-full object-cover opacity-60"
-        />
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="h-[120%] w-full object-cover opacity-50"
+          poster={img("photo-1515562141207-7a88fb7ce338", 1200)}
+        >
+          <source
+            src="https://assets.mixkit.co/videos/preview/mixkit-close-up-of-sparkling-gold-jewelry-41740-large.mp4"
+            type="video/mp4"
+          />
+        </video>
       </motion.div>
       <div className="absolute inset-0 bg-gradient-to-b from-noir/90 via-noir/60 to-noir" />
 
@@ -83,17 +92,16 @@ interface CollectionCardProps {
   delay: number;
   saved: boolean;
   onToggleSave: (name: string) => void;
+  onSelect: (item: Collection) => void;
 }
 
-function CollectionCard({ item, delay, saved, onToggleSave }: CollectionCardProps) {
+function CollectionCard({ item, delay, saved, onToggleSave, onSelect }: CollectionCardProps) {
   return (
     <Reveal delay={delay} className={item.span}>
       <div className={`relative ${item.height} w-full group overflow-hidden rounded-xl border border-champagne/10 bg-noir-card`}>
-        <a
-          href={whatsappLink(item.message)}
-          target="_blank"
-          rel="noreferrer"
-          className="absolute inset-0 block"
+        <button
+          onClick={() => onSelect(item)}
+          className="absolute inset-0 block h-full w-full text-left cursor-pointer"
         >
           <img
             src={item.image}
@@ -114,7 +122,7 @@ function CollectionCard({ item, delay, saved, onToggleSave }: CollectionCardProp
               {item.description}
             </p>
           </div>
-        </a>
+        </button>
 
         <button
           onClick={() => onToggleSave(item.name)}
@@ -133,7 +141,16 @@ function CollectionCard({ item, delay, saved, onToggleSave }: CollectionCardProp
   );
 }
 
-function Collections({ wishlist }: HomeProps) {
+interface CollectionsProps {
+  wishlist: {
+    items: string[];
+    toggle: (name: string) => void;
+    clear: () => void;
+  };
+  onSelectCollection: (item: Collection) => void;
+}
+
+function Collections({ wishlist, onSelectCollection }: CollectionsProps) {
   return (
     <section id="colecoes" className="relative mx-auto max-w-7xl px-5 py-24 lg:px-10 lg:py-32">
       <Reveal className="mb-14 text-center">
@@ -154,6 +171,7 @@ function Collections({ wishlist }: HomeProps) {
             delay={i * 100}
             saved={wishlist.items.includes(item.name)}
             onToggleSave={wishlist.toggle}
+            onSelect={onSelectCollection}
           />
         ))}
       </div>
@@ -253,16 +271,199 @@ function FinalInvitation() {
   );
 }
 
+/* --------------------------- Detalhes da Coleção (Modal) --------------------- */
+
+interface CollectionModalProps {
+  item: Collection | null;
+  onClose: () => void;
+  saved: boolean;
+  onToggleSave: (name: string) => void;
+}
+
+function CollectionModal({ item, onClose, saved, onToggleSave }: CollectionModalProps) {
+  const [consentChecked, setConsentChecked] = useState(false);
+
+  useEffect(() => {
+    if (item) {
+      document.body.style.overflow = "hidden";
+      setConsentChecked(false);
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [item]);
+
+  if (!item) return null;
+
+  return (
+    <AnimatePresence>
+      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+        {/* Backdrop */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={onClose}
+          className="absolute inset-0 bg-noir/85 backdrop-blur-md"
+        />
+
+        {/* Modal Container */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.96, y: 15 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.96, y: 15 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          className="relative z-10 w-full max-w-md overflow-hidden rounded-2xl border border-champagne/15 bg-noir-soft shadow-2xl"
+        >
+          {/* Header Image */}
+          <div className="relative h-56 w-full">
+            <img
+              src={item.image}
+              alt={item.name}
+              className="h-full w-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-noir-soft via-transparent to-black/30" />
+
+            {/* Top Buttons on Image */}
+            <button
+              onClick={() => onToggleSave(item.name)}
+              aria-label={saved ? "Remover dos favoritos" : "Salvar nos favoritos"}
+              className="absolute left-4 top-4 flex h-9 w-9 items-center justify-center rounded-full border border-champagne/20 bg-noir/50 backdrop-blur-md text-ivory transition-all duration-300 hover:border-champagne"
+            >
+              <Heart
+                className={`h-4.5 w-4.5 transition-colors duration-300 ${
+                  saved ? "fill-champagne text-champagne" : "text-ivory"
+                }`}
+                strokeWidth={1.5}
+              />
+            </button>
+
+            <button
+              onClick={onClose}
+              aria-label="Fechar modal"
+              className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full border border-champagne/20 bg-noir/50 backdrop-blur-md text-ivory-muted transition-all duration-300 hover:text-champagne hover:border-champagne"
+            >
+              <X className="h-5 w-5" strokeWidth={1.5} />
+            </button>
+          </div>
+
+          {/* Body */}
+          <div className="p-6">
+            <p className="text-[10px] font-light uppercase tracking-[0.25em] text-champagne">
+              {item.collection}
+            </p>
+            <h3 className="mt-1 font-display text-2.5xl font-light text-ivory">
+              {item.name}
+            </h3>
+            <p className="mt-3 text-sm font-extralight leading-relaxed text-ivory-muted">
+              {item.description}
+            </p>
+
+            {/* Certifications and specs box */}
+            <div className="mt-5 rounded-xl border border-champagne/10 bg-noir-card/50 p-4 text-left">
+              <h4 className="text-[10px] font-light uppercase tracking-[0.18em] text-champagne mb-3">
+                Especificações de Alta Joalheria
+              </h4>
+              <ul className="space-y-2.5 text-xs font-extralight text-ivory-muted">
+                <li className="flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-champagne/70" />
+                  Metal precioso: Ouro 18k legítimo (Teor AU 750)
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-champagne/70" />
+                  Ajuste de aro sob medida antes da entrega
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-champagne/70" />
+                  Estojo premium e certificado de autenticidade inclusos
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-champagne/70" />
+                  Envio seguro lacrado com cobertura total de sinistro
+                </li>
+              </ul>
+            </div>
+
+            {/* Consent Box */}
+            <div className="mt-5 flex items-start gap-2.5 text-left">
+              <input
+                type="checkbox"
+                id="modal-consent"
+                checked={consentChecked}
+                onChange={(e) => setConsentChecked(e.target.checked)}
+                className="mt-1 h-4 w-4 shrink-0 rounded border-champagne/30 bg-noir text-champagne accent-champagne focus:ring-0 cursor-pointer"
+              />
+              <label
+                htmlFor="modal-consent"
+                className="text-[11.5px] font-extralight leading-relaxed text-ivory-muted/80 cursor-pointer select-none"
+              >
+                Declaro que concordo com os{" "}
+                <a
+                  href="#/termos"
+                  target="_blank"
+                  className="text-champagne-light underline decoration-champagne/20 underline-offset-2 hover:text-champagne"
+                >
+                  Termos de Uso
+                </a>{" "}
+                e a{" "}
+                <a
+                  href="#/privacidade"
+                  target="_blank"
+                  className="text-champagne-light underline decoration-champagne/20 underline-offset-2 hover:text-champagne"
+                >
+                  Política de Privacidade
+                </a>.
+              </label>
+            </div>
+
+            {/* Action Button */}
+            <a
+              href={whatsappLink(item.message)}
+              target="_blank"
+              rel="noreferrer"
+              className={`group mt-6 flex w-full items-center justify-center gap-3 rounded-full bg-champagne px-8 py-4 text-[13px] font-medium uppercase tracking-[0.18em] text-noir transition-all duration-500 ${
+                consentChecked
+                  ? "hover:bg-champagne-light hover:shadow-[0_12px_48px_rgba(212,180,131,0.45)]"
+                  : "opacity-40 pointer-events-none"
+              }`}
+            >
+              <WhatsAppIcon className="h-4 w-4" />
+              Solicitar Fotos e Valores
+            </a>
+
+            <button
+              onClick={onClose}
+              className="mt-4 w-full text-center text-xs font-light uppercase tracking-[0.2em] text-ivory-muted transition-colors duration-300 hover:text-champagne"
+            >
+              Continuar olhando
+            </button>
+          </div>
+        </motion.div>
+      </div>
+    </AnimatePresence>
+  );
+}
+
 /* ---------------------------------- Home ---------------------------------- */
 
 export function Home({ wishlist }: HomeProps) {
+  const [selectedCollection, setSelectedCollection] = useState<Collection | null>(null);
+
   return (
     <main>
       <Hero />
-      <Collections wishlist={wishlist} />
+      <Collections wishlist={wishlist} onSelectCollection={setSelectedCollection} />
       <HowItWorks />
       <QuizSection />
       <FinalInvitation />
+      <CollectionModal
+        item={selectedCollection}
+        onClose={() => setSelectedCollection(null)}
+        saved={selectedCollection ? wishlist.items.includes(selectedCollection.name) : false}
+        onToggleSave={wishlist.toggle}
+      />
     </main>
   );
 }

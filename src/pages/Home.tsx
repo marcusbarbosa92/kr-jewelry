@@ -36,6 +36,7 @@ function Hero() {
           loop
           muted
           playsInline
+          referrerPolicy="no-referrer"
           className="h-[120%] w-full object-cover opacity-50"
           poster={img("photo-1515562141207-7a88fb7ce338", 1200)}
         >

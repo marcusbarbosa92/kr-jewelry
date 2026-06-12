@@ -37,14 +37,10 @@ function Hero() {
           muted
           playsInline
           referrerPolicy="no-referrer"
+          src="https://assets.mixkit.co/videos/preview/mixkit-close-up-of-sparkling-gold-jewelry-41740-large.mp4"
           className="h-[120%] w-full object-cover opacity-50"
           poster={img("photo-1515562141207-7a88fb7ce338", 1200)}
-        >
-          <source
-            src="https://assets.mixkit.co/videos/preview/mixkit-close-up-of-sparkling-gold-jewelry-41740-large.mp4"
-            type="video/mp4"
-          />
-        </video>
+        />
       </motion.div>
       <div className="absolute inset-0 bg-gradient-to-b from-noir/90 via-noir/60 to-noir" />
 

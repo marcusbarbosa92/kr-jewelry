@@ -26,18 +26,26 @@ interface HomeProps {
 function Hero() {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 800], [0, 200]);
+  const videoRef = React.useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.setAttribute("referrerpolicy", "no-referrer");
+      videoRef.current.src =
+        "https://assets.mixkit.co/videos/preview/mixkit-close-up-of-sparkling-gold-jewelry-41740-large.mp4";
+    }
+  }, []);
 
   return (
     <section className="relative flex min-h-svh items-center justify-center overflow-hidden">
       {/* Background with parallax */}
       <motion.div className="absolute inset-0" style={{ y }}>
         <video
+          ref={videoRef}
           autoPlay
           loop
           muted
           playsInline
-          referrerPolicy="no-referrer"
-          src="https://assets.mixkit.co/videos/preview/mixkit-close-up-of-sparkling-gold-jewelry-41740-large.mp4"
           className="h-[120%] w-full object-cover opacity-50"
           poster={img("photo-1515562141207-7a88fb7ce338", 1200)}
         />

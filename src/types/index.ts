@@ -6,8 +6,9 @@ export interface Collection {
   description: string;
   message: string;
   image: string;
-  span: string;
-  height: string;
+  images: string[];
+  span?: string;
+  height?: string;
 }
 
 export interface QuizOption {

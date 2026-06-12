@@ -91,22 +91,31 @@ interface CollectionCardProps {
 }
 
 function CollectionCard({ item, delay, saved, onToggleSave, onSelect }: CollectionCardProps) {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    if (!item.images || item.images.length <= 1) return;
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % item.images.length);
+    }, 6000); // Super slow transition (6 seconds per image)
+    return () => clearInterval(interval);
+  }, [item.images]);
+
   return (
-    <Reveal delay={delay} className={item.span}>
-      <div className={`relative ${item.height} w-full group overflow-hidden rounded-xl border border-champagne/10 bg-noir-card`}>
+    <Reveal delay={delay} className="w-full">
+      <div
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        className="relative h-80 sm:h-96 lg:h-[30rem] w-full group overflow-hidden rounded-xl border border-champagne/10 bg-noir-card"
+      >
         <button
           onClick={() => onSelect(item)}
-          className="absolute inset-0 block h-full w-full text-left cursor-pointer"
+          className="absolute inset-0 block h-full w-full text-left cursor-pointer z-10"
         >
-          <img
-            src={item.image}
-            alt={item.name}
-            loading="lazy"
-            className="absolute inset-0 h-full w-full object-cover opacity-70 transition-all duration-700 group-hover:scale-105 group-hover:opacity-90"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-noir/95 via-noir/30 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-noir/95 via-noir/30 to-transparent z-10" />
 
-          <div className="absolute inset-x-0 bottom-0 p-8">
+          <div className="absolute inset-x-0 bottom-0 p-8 z-20">
             <p className="text-[10px] font-light uppercase tracking-[0.3em] text-champagne">
               {item.collection}
             </p>
@@ -119,10 +128,23 @@ function CollectionCard({ item, delay, saved, onToggleSave, onSelect }: Collecti
           </div>
         </button>
 
+        <AnimatePresence initial={false}>
+          <motion.img
+            key={currentImageIndex}
+            src={item.images[currentImageIndex]}
+            alt={item.name}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: isHovered ? 0.9 : 0.7 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 2.5, ease: "easeInOut" }} // Super slow crossfade
+            className="absolute inset-0 h-full w-full object-cover transition-transform duration-1000 group-hover:scale-105"
+          />
+        </AnimatePresence>
+
         <button
           onClick={() => onToggleSave(item.name)}
           aria-label={saved ? "Remover dos favoritos" : "Salvar nos favoritos"}
-          className="absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-champagne/20 bg-noir/60 backdrop-blur-md transition-all duration-300 hover:border-champagne"
+          className="absolute right-4 top-4 z-30 flex h-9 w-9 items-center justify-center rounded-full border border-champagne/20 bg-noir/60 backdrop-blur-md transition-all duration-300 hover:border-champagne"
         >
           <Heart
             className={`h-4.5 w-4.5 transition-colors duration-300 ${
@@ -158,7 +180,7 @@ function Collections({ wishlist, onSelectCollection }: CollectionsProps) {
         <div className="hairline mx-auto mt-6 h-px w-20" />
       </Reveal>
 
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-2">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         {COLLECTIONS.map((item, i) => (
           <CollectionCard
             key={item.name}
@@ -277,17 +299,27 @@ interface CollectionModalProps {
 
 function CollectionModal({ item, onClose, saved, onToggleSave }: CollectionModalProps) {
   const [consentChecked, setConsentChecked] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     if (item) {
       document.body.style.overflow = "hidden";
       setConsentChecked(false);
+      setCurrentImageIndex(0);
     } else {
       document.body.style.overflow = "";
     }
     return () => {
       document.body.style.overflow = "";
     };
+  }, [item]);
+
+  useEffect(() => {
+    if (!item || !item.images || item.images.length <= 1) return;
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % item.images.length);
+    }, 6000); // 6 seconds per image
+    return () => clearInterval(interval);
   }, [item]);
 
   if (!item) return null;
@@ -313,19 +345,26 @@ function CollectionModal({ item, onClose, saved, onToggleSave }: CollectionModal
           className="relative z-10 w-full max-w-md overflow-hidden rounded-2xl border border-champagne/15 bg-noir-soft shadow-2xl"
         >
           {/* Header Image */}
-          <div className="relative h-56 w-full">
-            <img
-              src={item.image}
-              alt={item.name}
-              className="h-full w-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-noir-soft via-transparent to-black/30" />
+          <div className="relative h-56 w-full overflow-hidden">
+            <AnimatePresence initial={false}>
+              <motion.img
+                key={currentImageIndex}
+                src={item.images[currentImageIndex]}
+                alt={item.name}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 2.0, ease: "easeInOut" }} // Super slow crossfade in modal
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            </AnimatePresence>
+            <div className="absolute inset-0 bg-gradient-to-t from-noir-soft via-transparent to-black/30 z-10" />
 
             {/* Top Buttons on Image */}
             <button
               onClick={() => onToggleSave(item.name)}
               aria-label={saved ? "Remover dos favoritos" : "Salvar nos favoritos"}
-              className="absolute left-4 top-4 flex h-9 w-9 items-center justify-center rounded-full border border-champagne/20 bg-noir/50 backdrop-blur-md text-ivory transition-all duration-300 hover:border-champagne"
+              className="absolute left-4 top-4 z-20 flex h-9 w-9 items-center justify-center rounded-full border border-champagne/20 bg-noir/50 backdrop-blur-md text-ivory transition-all duration-300 hover:border-champagne"
             >
               <Heart
                 className={`h-4.5 w-4.5 transition-colors duration-300 ${
@@ -338,7 +377,7 @@ function CollectionModal({ item, onClose, saved, onToggleSave }: CollectionModal
             <button
               onClick={onClose}
               aria-label="Fechar modal"
-              className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full border border-champagne/20 bg-noir/50 backdrop-blur-md text-ivory-muted transition-all duration-300 hover:text-champagne hover:border-champagne"
+              className="absolute right-4 top-4 z-20 flex h-9 w-9 items-center justify-center rounded-full border border-champagne/20 bg-noir/50 backdrop-blur-md text-ivory-muted transition-all duration-300 hover:text-champagne hover:border-champagne"
             >
               <X className="h-5 w-5" strokeWidth={1.5} />
             </button>

@@ -88,7 +88,7 @@ export function Navbar({ solid, wishlistCount, onOpenWishlist }: NavbarProps) {
               )}
               target="_blank"
               rel="noreferrer"
-              className="hidden items-center gap-2 rounded-full border border-champagne/40 bg-champagne/5 px-6 py-2.5 text-[12px] font-normal uppercase tracking-[0.2em] text-champagne-light backdrop-blur-md transition-all duration-500 hover:border-champagne hover:bg-champagne hover:text-noir hover:shadow-[0_0_32px_rgba(212,180,131,0.35)] sm:flex"
+              className="btn-shimmer hidden items-center gap-2 rounded-full border border-champagne/40 bg-champagne/5 px-6 py-2.5 text-[12px] font-normal uppercase tracking-[0.2em] text-champagne-light backdrop-blur-md transition-all duration-500 hover:border-champagne hover:bg-champagne hover:text-noir hover:shadow-[0_0_32px_rgba(212,180,131,0.35)] sm:flex"
             >
               <WhatsAppIcon className="h-4 w-4" />
               Personal Shopper

@@ -71,7 +71,7 @@ function Hero() {
             )}
             target="_blank"
             rel="noreferrer"
-            className="group inline-flex items-center gap-3 rounded-full border border-champagne/45 bg-noir-card/40 px-9 py-4 text-[12px] font-medium uppercase tracking-[0.2em] text-champagne-light backdrop-blur-sm transition-all duration-500 hover:bg-champagne hover:text-noir"
+            className="btn-shimmer group inline-flex items-center gap-3 rounded-full border border-champagne/45 bg-noir-card/40 px-9 py-4 text-[12px] font-medium uppercase tracking-[0.2em] text-champagne-light backdrop-blur-sm transition-all duration-500 hover:bg-champagne hover:text-noir"
           >
             <WhatsAppIcon className="h-4 w-4" />
             Iniciar Atendimento
@@ -80,6 +80,26 @@ function Hero() {
               strokeWidth={1.7}
             />
           </a>
+        </div>
+      </div>
+
+      {/* Scroll indicator */}
+      <div className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 flex flex-col items-center gap-2">
+        <span className="text-[9px] font-light uppercase tracking-[0.3em] text-champagne/60">
+          Descobrir
+        </span>
+        <div className="relative h-10 w-px bg-champagne/10 overflow-hidden">
+          <motion.div
+            animate={{
+              y: ["-100%", "100%"],
+            }}
+            transition={{
+              duration: 2.2,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            className="absolute top-0 left-0 h-4 w-full bg-gradient-to-b from-transparent via-champagne/60 to-transparent"
+          />
         </div>
       </div>
     </section>
@@ -113,7 +133,7 @@ function CollectionCard({ item, delay, saved, onToggleSave, onSelect }: Collecti
       <div
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className="relative h-80 sm:h-96 lg:h-[30rem] w-full group overflow-hidden rounded-xl border border-champagne/10 bg-noir-card"
+        className="relative h-80 sm:h-96 lg:h-[30rem] w-full group overflow-hidden rounded-xl border border-champagne/10 bg-noir-card transition-all duration-500 hover:border-champagne/30 hover:shadow-[0_0_30px_rgba(212,180,131,0.12)]"
       >
         <button
           onClick={() => onSelect(item)}
@@ -225,6 +245,9 @@ const STEPS = [
 function HowItWorks() {
   return (
     <section id="atendimento" className="relative overflow-hidden bg-noir-soft py-24 lg:py-32">
+      {/* Background glowing ambient sphere */}
+      <div className="pointer-events-none absolute -left-44 top-1/4 h-[36rem] w-[36rem] animate-gradient-slow rounded-full bg-[radial-gradient(circle,rgba(212,180,131,0.05),transparent_60%)] blur-3xl" />
+
       <div className="relative mx-auto max-w-7xl px-5 lg:px-10">
         <Reveal className="mb-16 text-center">
           <p className="text-[10px] font-light uppercase tracking-[0.4em] text-champagne">
@@ -263,7 +286,10 @@ function HowItWorks() {
 function FinalInvitation() {
   return (
     <section className="relative overflow-hidden py-28 text-center border-t border-champagne/10">
-      <Reveal className="mx-auto max-w-xl px-5">
+      {/* Background glowing ambient sphere */}
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[32rem] w-[32rem] -translate-x-1/2 -translate-y-1/2 animate-gradient-slow rounded-full bg-[radial-gradient(circle,rgba(212,180,131,0.06),transparent_60%)] blur-3xl" />
+
+      <Reveal className="mx-auto max-w-xl px-5 relative z-10">
         <div className="flex justify-center mb-6">
           <AuthenticitySeal className="h-24 w-24" />
         </div>
@@ -283,7 +309,7 @@ function FinalInvitation() {
             )}
             target="_blank"
             rel="noreferrer"
-            className="group inline-flex items-center gap-3 rounded-full border border-champagne/40 bg-champagne/5 px-8 py-3.5 text-[11px] font-medium uppercase tracking-[0.2em] text-champagne-light transition-all duration-500 hover:bg-champagne hover:text-noir"
+            className="btn-shimmer group inline-flex items-center gap-3 rounded-full border border-champagne/40 bg-champagne/5 px-8 py-3.5 text-[11px] font-medium uppercase tracking-[0.2em] text-champagne-light transition-all duration-500 hover:bg-champagne hover:text-noir"
           >
             <WhatsAppIcon className="h-4 w-4" />
             Solicitar Sugestões
@@ -463,7 +489,7 @@ function CollectionModal({ item, onClose, saved, onToggleSave }: CollectionModal
               href={whatsappLink(item.message)}
               target="_blank"
               rel="noreferrer"
-              className={`group mt-6 flex w-full items-center justify-center gap-3 rounded-full bg-champagne px-8 py-4 text-[13px] font-medium uppercase tracking-[0.18em] text-noir transition-all duration-500 ${
+              className={`btn-shimmer group mt-6 flex w-full items-center justify-center gap-3 rounded-full bg-champagne px-8 py-4 text-[13px] font-medium uppercase tracking-[0.18em] text-noir transition-all duration-500 ${
                 consentChecked
                   ? "hover:bg-champagne-light hover:shadow-[0_12px_48px_rgba(212,180,131,0.45)]"
                   : "opacity-40 pointer-events-none"

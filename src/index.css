@@ -159,6 +159,38 @@ summary::-webkit-details-marker {
     transparent
   );
 }
+.btn-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shimmer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.22),
+    transparent
+  );
+  transform: skewX(-20deg);
+  pointer-events: none;
+}
+.btn-shimmer:hover::after {
+  animation: button-shimmer 1.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes button-shimmer {
+  0% {
+    left: -150%;
+  }
+  100% {
+    left: 150%;
+  }
+}
 
 @media (prefers-reduced-motion: reduce) {
   *,

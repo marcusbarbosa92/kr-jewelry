@@ -14,6 +14,7 @@ import {
   INSTAGRAM_HANDLE,
 } from "../../constants/index.ts";
 import { whatsappLink } from "../../utils/helpers.ts";
+import DeveloperCredits from "./DeveloperCredits.tsx";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -115,20 +116,12 @@ export function Footer() {
         <div className="hairline mt-10 h-px w-full" />
         <div className="mt-7 flex flex-col items-center justify-between gap-3 text-xs font-extralight text-ivory-muted/40 sm:flex-row">
           <p>© {currentYear} KR.JEWELRY Alta Joalheria. Todos os direitos reservados.</p>
-          <div className="flex items-center gap-4">
-            <p className="tracking-[0.2em]">FEITO À MÃO NO BRASIL</p>
-            <span className="text-ivory-muted/20">•</span>
-            <a
-              href="https://synthrai.com"
-              target="_blank"
-              rel="noreferrer"
-              className="tracking-[0.18em] text-[11px] font-normal uppercase text-ivory-muted/50 hover:text-champagne transition-colors duration-300"
-            >
-              Criado por <span className="font-semibold">SYNTHRAI</span>
-            </a>
-          </div>
+          <p className="tracking-[0.2em]">FEITO À MÃO NO BRASIL</p>
         </div>
       </div>
+
+      {/* Developer Credits */}
+      <DeveloperCredits />
     </footer>
   );
 }

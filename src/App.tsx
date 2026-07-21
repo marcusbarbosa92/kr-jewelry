@@ -16,6 +16,7 @@ import { PrivacidadePage } from "./pages/Privacidade.tsx";
 import { TrocasPage } from "./pages/Trocas.tsx";
 import { TermosPage } from "./pages/Termos.tsx";
 import { CookieConsent } from "./components/layout/CookieConsent.tsx";
+import { AurumMark } from "./components/ui/Icons.tsx";
 
 interface PageConfig {
   component: React.ComponentType<any>;
@@ -31,7 +32,26 @@ const PAGES: Record<string, PageConfig> = {
   termos: { component: TermosPage, title: "Termos de uso" },
 };
 
+const STANDBY_MODE = true; // Defina como false para reativar o site
+
 export default function App() {
+  if (STANDBY_MODE) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center bg-noir px-5 text-center font-body text-ivory">
+        <div className="flex flex-col items-center gap-4">
+          <AurumMark className="h-12 w-12 text-champagne" />
+          <h1 className="font-display text-2xl font-light tracking-[0.25em] text-ivory sm:text-3xl">
+            KR.JEWELRY
+          </h1>
+          <div className="h-px w-16 bg-gradient-to-r from-transparent via-champagne/40 to-transparent my-2" />
+          <p className="text-[10px] font-light uppercase tracking-[0.3em] text-ivory-muted/70">
+            Nova Coleção em Breve
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   const hash = useHashRoute();
   const page = hash.startsWith("#/") ? hash.slice(2) : "";
   const route = PAGES[page];
